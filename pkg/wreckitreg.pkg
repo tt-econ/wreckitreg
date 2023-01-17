@@ -1,0 +1,6 @@
+d wreckitreg: Scale variables that are transformed according to log(+1) or ihs() to obtain any regression coefficient
+d Neil Thakral, Brown University and Linh Tô, Boston University
+d
+f wreckitreg.ado
+f wreckitreg.sthlp
+e
