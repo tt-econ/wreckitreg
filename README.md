@@ -4,10 +4,9 @@
   <img src="/misc/Reg.png" width="420">
 </p>
 
-
 ## Description
 
-A Stata package to "wreck" any regression with a variable being transformed according to log(+1) or IHS (when there are zeros in the data) by applying a scaling factor on the transformed variable to achieve an arbitrary coefficient.
+A Stata package to ["wreck"](https://movies.disney.com/wreck-it-ralph) any regression with a variable being transformed according to log(+1) or IHS (when there are zeros in the data) by applying a scaling factor on the transformed variable to achieve an arbitrary coefficient.
 
 ## Requirements
 
@@ -72,10 +71,10 @@ In Stata, after installation:
 
 See the help file for more: In Stata, type `help wreckitreg` after installation.
 
-<!-- ## References
+## References
 
-See "A note on logarithmic and inverse hyperbolic sine transformations in regressions" (Thakral and Tô 2022)
- -->
+See "Rightly transforming right-skewed variables" (Thakral and Tô 2023)
+
 &nbsp;
 
 Ⓒ 2022 Neil Thakral and Linh T. Tô
