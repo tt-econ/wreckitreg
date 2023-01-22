@@ -1,5 +1,5 @@
 program define wreckitreg, eclass sortpreserve
-    version 17
+    version 8
 
     syntax varlist(numeric ts fv) [if] [in] [, noCONStant ihs xvar coefvar(varname numeric)]  value(real)
     marksample touse
