@@ -29,7 +29,7 @@
 {synoptline}
 
 {syntab:}
-{synopt:{opt coefvar(varname)}} independentn variable whose coefficient is to be achieved; can be omitted if there is only one independent variable,which will be used as {bf:coefvar}
+{synopt:{opt coefvar(varname)}} independent variable whose coefficient is to be achieved; can be omitted if there is only one independent variable,which will be used as {bf:coefvar}
 
 {synopt:{opt value}} desired value of the coefficient on {cmd:coefvar}
 
