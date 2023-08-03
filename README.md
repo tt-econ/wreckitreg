@@ -6,7 +6,7 @@
 
 ## Description
 
-A Stata package to ["wreck"](https://movies.disney.com/wreck-it-ralph) any regression with a variable being transformed according to log(+1) or IHS (when there are zeros in the data) by applying a scaling factor on the transformed variable to achieve an arbitrary coefficient.
+A Stata package to ["wreck"](https://movies.disney.com/wreck-it-ralph) any regression with a variable being transformed according to log(+1) or IHS (when there are zeros or negative values in the data) by applying a scaling factor on the transformed variable to achieve an arbitrary coefficient or semi-elasticity estimate.
 
 ## Requirements
 
@@ -26,55 +26,70 @@ In Stata, after installation:
 
 ```
    . sysuse nlsw88, clear
-   . wreckitreg wage tenure grade, coefvar(tenure) value(10000) xvar ihs
+   (NLSW, 1988 extract)
+
+   . replace wage = 0 if wage < 2
+   (26 real changes made)
+
+   . wreckitreg wage tenure grade, coefvar(tenure) value(.03) absorb(age)
    (setting technique to nr)
-   Iteration 0:   f(p) =  1.878e+10
-   Iteration 1:   f(p) =  6605253.3  (not concave)
-   Iteration 2:   f(p) =  1384.9877
-   Iteration 3:   f(p) =  125.00677
-   Iteration 4:   f(p) =  9.5921847  (not concave)
+   Iteration 0:   f(p) =  .00011345
+   Iteration 1:   f(p) =  .00011345
+   Iteration 2:   f(p) =  .00011345  (not concave)
+   Iteration 3:   f(p) =  .00011345  (not concave)
+   Iteration 4:   f(p) =  .00011345  (not concave)
    (switching technique to dfp)
-   Iteration 5:   f(p) =  .77849023
-   Iteration 6:   f(p) =   .0000251
-   Iteration 7:   f(p) =  5.404e-07
-   Iteration 8:   f(p) =  1.243e-09
-   Iteration 9:   f(p) =  4.821e-12
+   Iteration 5:   f(p) =  .00011345
+   Iteration 6:   f(p) =  .00011345
+   Iteration 7:   f(p) =  .00011345
+   Iteration 8:   f(p) =  .00011345
+   Iteration 9:   f(p) =  6.240e-07
    (switching technique to bfgs)
-   Iteration 10:  f(p) =  1.017e-14
-   Iteration 11:  f(p) =  2.995e-15
-   Iteration 12:  f(p) =  6.084e-17
+   Iteration 10:  f(p) =  1.379e-11
+   Iteration 11:  f(p) =  9.497e-15
+   Iteration 12:  f(p) =  1.384e-16
+   Iteration 13:  f(p) =  2.626e-18
 
 
-   Coefficient Value with a scale of   1.00000000e+50:     .00436957484
-   Coefficient Value with a scale of   1.00000000e-10:       1470505000
-   Note: Results may not be obtainable between the two coefficient values above due to machine precision
+   Note: Results may not be obtainable outside the range between the two semi-elasticity values be
+   > low due to machine precision:
+   Semi-Elasticity Value with a scale of   1.00000000e-10:      .0193485116
+   Semi-Elasticity Value with a scale of   1.00000000e+44:       .155239028
 
 
-   Scaling tenure by a factor of .00001471 will yield a coefficient on tenure of 10000 for variable transformation
-   > : ihs(.0000147 * tenure). Resulting regression:
+   Scaling wage by a factor of .16653186 will yield a semi-elasticity with respect to tenure (eval
+   > uated at the means of covariates) of .03 for variable transformation: ln(1 + .1665319 * wage)
+   > . Resulting regression:
 
-         Source |       SS           df       MS      Number of obs   =     2,229
-   -------------+----------------------------------   F(2, 2226)      =    159.60
-          Model |  9291.77652         2  4645.88826   Prob > F        =    0.0000
-       Residual |  64796.1912     2,226  29.1088011   R-squared       =    0.1254
-   -------------+----------------------------------   Adj R-squared   =    0.1246
-          Total |  74087.9678     2,228  33.2531274   Root MSE        =    5.3953
+   ---------------------------------------------------------------------------------------------
+                                                            (1)                          (2)
+                                                   Coefficient              Semi-Elasticity
+   ---------------------------------------------------------------------------------------------
+   Job tenure (years)                                     0.0131***                    0.0300***
+                                                         (11.57)                      (11.57)
 
-   ------------------------------------------------------------------------------------
-              wage | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
-   -------------------+----------------------------------------------------------------
-   ___transformed_var |      10000   1422.184     7.03   0.000     7211.054    12788.95
-                grade |    .704318    .045626    15.44   0.000     .6148441     .793792
-                _cons |  -2.311109   .6063331    -3.81   0.000    -3.500146   -1.122071
-   ------------------------------------------------------------------------------------
+   Current grade completed                                0.0473***
+                                                         (19.35)
+
+   Constant                                               0.0728**
+                                                         (2.24)
+   ---------------------------------------------------------------------------------------------
+   t statistics in parentheses
+   * p<0.10, ** p<0.05, *** p<0.01
+
+
+   Theoretical limit cases:
+   As scale -> 0, semi-elasticity -> .0193485117215812
+   As scale -> infty, abs(semi-elasticity) -> infty
+   Note that the semi-elasticity estimate may not change monotonically with the scale.
 ```
 
 See the help file for more: In Stata, type `help wreckitreg` after installation.
 
 ## References
 
-See "Rightly transforming right-skewed variables" (Thakral and Tô 2023)
+["When Are Estimates Independent of Measurement Units?" (Thakral and Tô 2023)](https://linh.to/files/papers/transformations.pdf)
 
 &nbsp;
 
-Ⓒ 2022 Neil Thakral and Linh T. Tô
+Ⓒ 2022–2023 Neil Thakral and Linh T. Tô
